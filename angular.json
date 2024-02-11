@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "bootstrap/dist/css/bootstrap-grid.min.css",
               "src/styles.css"
             ],
             "scripts": []
@@ -101,5 +102,8 @@
         }
       }
     }
+  },
+  "cli": {
+    "analytics": "1410826c-288c-4a89-a5f5-a893c463c1a4"
   }
 }
