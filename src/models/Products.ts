@@ -2,7 +2,7 @@ export class Products
 {
   id: string;
   productName: string;
-  productCost: number;
+  productCost: string;
   productDescription: string;
   stock: number;
 }

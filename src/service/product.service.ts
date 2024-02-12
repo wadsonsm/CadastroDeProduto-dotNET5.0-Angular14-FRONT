@@ -8,29 +8,29 @@ import { Products } from 'src/models/Products';
 })
 export class ProductService {
 
-  API_URL: "https://localhost:44315/api/Product";
+  url: "https://localhost:44315/api/Product/";
 
   constructor(private http: HttpClient) { }
 
-  getProductList(): Observable<Products[]>{
-    return this.http.get<Products[]>(this.API_URL + 'List');
+  getProductList(): Observable<Products[]> {
+    return this.http.get<Products[]>(this.url + 'List');
   }
 
   getProductDetailsById(id: string): Observable<Products>{
-    return this.http.get<Products>(this.API_URL + 'Details?id=' + id);
+    return this.http.get<Products>(this.url + 'Details?id=' + id);
   }
 
   postProductDate(productData: Products): Observable<Products>{
     const httpHeaders = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<Products>(this.API_URL + 'CreateRecord',productData, httpHeaders);
+    return this.http.post<Products>(this.url + 'CreateRecord',productData, httpHeaders);
   }
 
   updateProduct(product: Products): Observable<Products>{
     const httpHeaders = { headers: new HttpHeaders({ 'Content-Type': 'apllication/json' }) };
-    return this.http.post<Products>(this.API_URL + 'UpdateProduct?id=' + product.id, product, httpHeaders);
+    return this.http.post<Products>(this.url + 'UpdateProduct?id=' + product.id, product, httpHeaders);
   }
 
   deleteProductById(id: string): Observable<string>{
-    return this.http.post<string>(this.API_URL + 'DeleteProduct?id='+id, null);
+    return this.http.post<string>(this.url + 'DeleteProduct?id='+id, null);
   }
 }
