@@ -1,9 +1,9 @@
-import { Observable } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Products } from '../../../models/Products';
+import { ProductService } from '../../../service/product.service';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
-import { Products } from 'src/models/Products';
-import { HttpClient } from '@angular/common/http';
-import { ProductService } from 'src/service/product.service';
 
 
 @Component({
@@ -14,9 +14,7 @@ import { ProductService } from 'src/service/product.service';
 export class ProductRegisterComponent implements OnInit {
 
   productForm: any;
-   ProductList: Observable<Products[]>;
-   ProductList1: Observable<Products[]>;
-
+  ProductList: Observable<Products[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,7 +22,7 @@ export class ProductRegisterComponent implements OnInit {
     private productService : ProductService
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit(){
     this.productForm = this.formBuilder.group({
       productName: ['', [Validators.required]],
       productCost: ["", [Validators.required]],
@@ -32,16 +30,10 @@ export class ProductRegisterComponent implements OnInit {
       stock: ["", [Validators.required]]
     });
     this.getProductList();
-
   }
 
   getProductList() {
-    try {
-      this.ProductList = this.productService.getProductList();
-      
-    } catch (error) {
-      console.log(error.message);
-    }
+    this.ProductList = this.productService.getProductList();
   }
 
   ProductDetailsToEdit(): void{
