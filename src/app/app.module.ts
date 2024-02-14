@@ -6,11 +6,13 @@ import { AppComponent } from './app.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProductRegisterComponent } from './components/product-register/product-register.component';
 import { HttpClientModule } from '@angular/common/http';
+import { PagenofoundComponent } from './pages/pagenofound/pagenofound.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProductRegisterComponent
+    ProductRegisterComponent,
+    PagenofoundComponent
   ],
   imports: [
     BrowserModule,

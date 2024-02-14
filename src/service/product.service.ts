@@ -1,8 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient,  HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 import { Products } from '../models/Products';
-
 
 @Injectable({
   providedIn: 'root'
@@ -11,10 +10,16 @@ export class ProductService {
 
   url = "https://localhost:44315/api/Product/";
 
+  handleError(error) {
+    return throwError(error)
+  }
+
+
   constructor(private http: HttpClient) { }
 
   getProductList(): Observable<Products[]> {
-    return this.http.get<Products[]>(this.url + 'List');
+    return this.http.get<Products[]>(this.url + 'List')
+      .pipe(catchError(this.handleError));
   }
 
   postProductData(productData: Products): Observable<Products> {

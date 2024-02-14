@@ -15,6 +15,8 @@ export class ProductRegisterComponent implements OnInit {
 
   productForm: any;
   ProductList: Observable<Products[]>;
+  isVisible: boolean = true;
+  errorStatus: number;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -34,6 +36,14 @@ export class ProductRegisterComponent implements OnInit {
 
   getProductList() {
     this.ProductList = this.productService.getProductList();
+    this.productService.getProductList().subscribe((data) => {
+      console.log(data);
+      console.log(typeof data);
+    }, (error) => {
+      console.log(error);
+      this.errorStatus = error.status
+    })
+
   }
 
   ProductDetailsToEdit(): void{
