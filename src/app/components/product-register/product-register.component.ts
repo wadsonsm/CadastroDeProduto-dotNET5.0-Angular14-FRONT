@@ -26,10 +26,10 @@ export class ProductRegisterComponent implements OnInit {
 
   ngOnInit(){
     this.productForm = this.formBuilder.group({
-      productName: ['', [Validators.required]],
-      productCost: ["", [Validators.required]],
-      productDescription: ["", [Validators.required]],
-      stock: ["", [Validators.required]]
+      productName: ['', [Validators.required, Validators.minLength(3)]],
+      productCost: ["", [Validators.required, Validators.min(1)]],
+      productDescription: ["", [Validators.required, Validators.minLength(3)]],
+      stock: ["", [Validators.required, Validators.min(1)]]
     });
     this.getProductList();
   }
@@ -43,7 +43,19 @@ export class ProductRegisterComponent implements OnInit {
       console.log(error);
       this.errorStatus = error.status
     })
+  }
 
+  add() {
+    console.log(this.productForm)
+
+    const productName = this.productForm.controls['productName'].value;
+    const productCost = this.productForm.controls['productCost'].value;
+    const productDescription = this.productForm.controls['productDescription'].value;
+    const stock = this.productForm.controls['stock'].value;
+
+    console.log(productName, productCost, productDescription, stock)
+
+    //this.productForm.reset();
   }
 
   ProductDetailsToEdit(): void{
