@@ -41,7 +41,7 @@ export class ProductRegisterComponent implements OnInit {
       console.log(typeof data);
     }, (error) => {
       console.log(error);
-      this.errorStatus = error.status
+      this.isVisible = false;
     })
   }
 

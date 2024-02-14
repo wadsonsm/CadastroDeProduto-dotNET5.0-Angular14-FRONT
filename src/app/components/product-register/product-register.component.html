@@ -1,100 +1,100 @@
 <form class="form-horizontal" [formGroup]="productForm" *ngIf="isVisible">
-    <h1>Welcome to Angular CRUD with .NET5</h1>
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">
-        Name of product:
-      </label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" formControlName="productName" id="txtProductName"  placeholder="Name of product">
-        <small class="danger"
-          *ngIf="productForm.controls['productName'].invalid && !productForm.controls['productName'].pristine">
-          Este campo deve ser preenchido
-        </small>
+  <h1>Welcome to Angular CRUD with .NET5</h1>
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">
+      Name of product:
+    </label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" formControlName="productName" id="txtProductName"
+        placeholder="Name of product">
+      <small class="danger"
+        *ngIf="productForm.controls['productName'].invalid && !productForm.controls['productName'].pristine">
+        Este campo deve ser preenchido
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">Cost of Product :</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="txtProductCost" formControlName="productCost"
+        placeholder="Cost of Product" />
+      <small class="danger"
+        *ngIf="productForm.controls['productCost'].invalid && !productForm.controls['productCost'].pristine">
+        Este campo deve ser maior que 0
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd">
+      Product Description:
+    </label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="txtProductDescription" formControlName="productDescription"
+        placeholder="Product Description" />
+      <small class="danger"
+        *ngIf="productForm.controls['productDescription'].invalid && !productForm.controls['productDescription'].pristine">
+        Este campo deve ser preenchido
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="pwd"># of Stock Available :</label>
+    <div class="col-sm-2">
+      <input type="text" class="form-control" id="txtStock" formControlName="stock" placeholder="Stock Available">
+      <small class="danger" *ngIf="productForm.controls['stock'].invalid && !productForm.controls['stock'].pristine">
+        Este campo deve ser maior que 0
+      </small>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="container">
+      <div class="row">
+        <div class="col-sm">
+          <button type="submit" class="btn btn-primary" (click)="add()">
+            Submit
+          </button>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">Cost of Product :</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="txtProductCost" formControlName="productCost"
-          placeholder="Cost of Product" />
-          <small class="danger danger01"
-            *ngIf="productForm.controls['productCost'].invalid && !productForm.controls['productCost'].pristine">
-            Este campo deve ser maior que 0
-          </small>
-      </div>
+  <div *ngIf="ProductList">
+    <div class="alert alert-info"><b>Product list</b></div>
+    <div class="table-responsive">
+      <table class="table">
+        <tr>
+          <th>Product Name</th>
+          <th>Cost</th>
+          <th># of Stock</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+        <tr *ngFor="let prd of ProductList | async">
+          <td>{{prd.productName}}</td>
+          <td>{{prd.productCost}}</td>
+          <td>{{prd.stock}}</td>
+          <td>{{prd.productDescription}}</td>
+          <td>
+            <button type="button" data-toggle="tooltip" title="Click edit Button" data-placement="top"
+              (click)="ProductDetailsToEdit()">
+              Edit
+            </button>
+            <button type="button" (click)="DeleteProduct()">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </table>
     </div>
+  </div>
 
-    <div class="form-group">
-      <label class="control-label col-sm-2" for="pwd">
-          Product Description:
-      </label>
-        <div class="col-sm-2">
-            <input type="text" class="form-control" id="txtProductDescription" formControlName="productDescription" placeholder="Product Description"/>
-            <small class="danger danger01"
-              *ngIf="productForm.controls['productDescription'].invalid && !productForm.controls['productDescription'].pristine">
-              Este campo deve ser preenchido
-            </small>
-        </div>
-    </div>
-
-      <div class="form-group">
-        <label class="control-label col-sm-2" for="pwd"># of Stock Available :</label>
-        <div class="col-sm-2">
-          <input type="text" class="form-control" id="txtStock" formControlName="stock" placeholder="Stock Available">
-          <small class="danger danger01"
-            *ngIf="productForm.controls['stock'].invalid && !productForm.controls['stock'].pristine">
-            Este campo deve ser maior que 0
-          </small>
-        </div>
-      </div>
-
-      <div class="form-group">
-        <div class="container">
-            <div class="row">
-                <div class="col-sm">
-                    <button type="submit" class="btn btn-primary" (click)="add()">
-                      Submit
-                    </button>
-                </div>
-            </div>
-        </div>
-      </div>
-
-      <div *ngIf="ProductList">
-        <div class="alert alert-info"><b>Product list</b></div>
-        <div class="table-responsive">
-            <table class="table">
-                <tr>
-                  <th>Product Name</th>
-                  <th>Cost</th>
-                  <th># of Stock</th>
-                  <th>Description</th>
-                  <th>Action</th>
-                </tr>
-                <tr *ngFor="let prd of ProductList | async">
-                    <td>{{prd.productName}}</td>
-                    <td>{{prd.productCost}}</td>
-                    <td>{{prd.stock}}</td>
-                    <td>{{prd.productDescription}}</td>
-                    <td>
-                      <button type="button" data-toggle="tooltip"
-                      title="Click edit Button" data-placement="top"
-                      (click)="ProductDetailsToEdit()">
-                        Edit
-                      </button>
-                      <button type="button" (click)="DeleteProduct()">
-                        Delete
-                      </button>
-                    </td>
-                </tr>
-            </table>
-        </div>
-      </div>
-
-      <div *ngIf="!ProductList" style="text-align: center;">
-          <img src="../../../assets/box02.png" />
-      </div>
-
-
+  <div *ngIf="!ProductList" style="text-align: center;">
+    <img src="../../../assets/box02.png" />
+  </div>
 </form>
+
+<app-pagenofound *ngIf="!isVisible"></app-pagenofound>
