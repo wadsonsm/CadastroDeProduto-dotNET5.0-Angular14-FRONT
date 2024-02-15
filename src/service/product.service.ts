@@ -23,8 +23,9 @@ export class ProductService {
   }
 
   postProductData(productData: Products): Observable<Products> {
-    const httpHeaders = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
-    return this.http.post<Products>(this.url + "CreateRecord", productData, httpHeaders);
+    const httpHeaders = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+    return this.http.post<Products>(this.url + "CreateRecord", productData, httpHeaders)
+      .pipe(catchError(this.handleError));
   }
 
   updateProduct(product: Products): Observable<Products> {

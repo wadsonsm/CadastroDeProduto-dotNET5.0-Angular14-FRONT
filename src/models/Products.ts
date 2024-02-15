@@ -1,8 +1,10 @@
+import { Guid } from "guid-typescript";
+
 export class Products
 {
-  id: string;
-  productName: string;
-  productCost: string;
-  productDescription: string;
-  stock: number;
+  id?: Guid;
+  productName?: string;
+  productCost?: string;
+  productDescription?: string;
+  stock?: number;
 }

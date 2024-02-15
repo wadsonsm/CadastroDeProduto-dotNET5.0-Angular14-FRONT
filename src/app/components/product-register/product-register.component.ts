@@ -1,6 +1,6 @@
+import { Products } from './../../../models/Products';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Products } from '../../../models/Products';
 import { ProductService } from '../../../service/product.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
@@ -18,6 +18,13 @@ export class ProductRegisterComponent implements OnInit {
   isVisible: boolean = true;
   errorStatus: number;
 
+  product: Products = {
+    productName: '',
+    productCost: '',
+    productDescription: '',
+    stock:0
+  };
+
   constructor(
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
@@ -26,7 +33,7 @@ export class ProductRegisterComponent implements OnInit {
 
   ngOnInit(){
     this.productForm = this.formBuilder.group({
-      productName: ['', [Validators.required, Validators.minLength(3)]],
+      productName: ["", [Validators.required, Validators.minLength(3)]],
       productCost: ["", [Validators.required, Validators.min(1)]],
       productDescription: ["", [Validators.required, Validators.minLength(3)]],
       stock: ["", [Validators.required, Validators.min(1)]]
@@ -38,7 +45,6 @@ export class ProductRegisterComponent implements OnInit {
     this.ProductList = this.productService.getProductList();
     this.productService.getProductList().subscribe((data) => {
       console.log(data);
-      console.log(typeof data);
     }, (error) => {
       console.log(error);
       this.isVisible = false;
@@ -46,16 +52,34 @@ export class ProductRegisterComponent implements OnInit {
   }
 
   add() {
+    console.log(this.productForm.value)
     console.log(this.productForm)
 
-    const productName = this.productForm.controls['productName'].value;
-    const productCost = this.productForm.controls['productCost'].value;
-    const productDescription = this.productForm.controls['productDescription'].value;
-    const stock = this.productForm.controls['stock'].value;
+    if (this.productForm.invalid) {
+      alert("Não deixar campos em branco !")
+      return false;
+    } else {
+      this.product.productName = this.productForm.controls['productName'].value;
+      this.product.productCost = this.productForm.controls['productCost'].value;
+      this.product.productDescription = this.productForm.controls['productDescription'].value;
+      this.product.stock = this.productForm.controls['stock'].value;
 
-    console.log(productName, productCost, productDescription, stock)
+      console.log(this.product)
+      this.productForm.reset();
 
-    //this.productForm.reset();
+      this.insertProduct(this.product);
+      return true;
+    }
+
+  }
+
+  insertProduct(products: Products) {
+    this.productService.postProductData(products).subscribe((data) => {
+      alert('Inserido com sucesso !');
+      this.getProductList();
+    }, (error) => {
+      console.log(error);
+    })
   }
 
   ProductDetailsToEdit(): void{
