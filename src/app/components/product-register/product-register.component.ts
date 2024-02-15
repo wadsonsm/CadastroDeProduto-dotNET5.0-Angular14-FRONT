@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { ProductService } from '../../../service/product.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Guid } from 'guid-typescript';
 
 
 @Component({
@@ -17,22 +18,25 @@ export class ProductRegisterComponent implements OnInit {
   ProductList: Observable<Products[]>;
   isVisible: boolean = true;
   errorStatus: number;
+  botaoEditar: boolean = false;
+  idFromRegisterToEdit: Guid = Guid.create();
 
   product: Products = {
     productName: '',
     productCost: '',
     productDescription: '',
-    stock:0
+    stock: 0
   };
 
   constructor(
     private formBuilder: FormBuilder,
     private httpClient: HttpClient,
-    private productService : ProductService
+    private productService: ProductService
   ) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.productForm = this.formBuilder.group({
+      id:[''],
       productName: ["", [Validators.required, Validators.minLength(3)]],
       productCost: ["", [Validators.required, Validators.min(1)]],
       productDescription: ["", [Validators.required, Validators.minLength(3)]],
@@ -82,12 +86,50 @@ export class ProductRegisterComponent implements OnInit {
     })
   }
 
-  ProductDetailsToEdit(): void{
-    alert('Edit');
+  ProductDetailsToEdit(products: Products): void {
+    this.botaoEditar = true;
+    this.idFromRegisterToEdit = products.id;
+
+    this.productForm.setValue({
+      'id':products.id,
+      'productName': products.productName,
+      'productCost': products.productCost,
+      'productDescription': products.productDescription,
+      'stock': products.stock
+    });
+    console.log(this.productForm)
   }
 
-  DeleteProduct(): void{
-    alert('deleted');
+  cancelarEdicao() {
+    this.productForm.reset();
+    location.reload();
+  }
+
+  editarRegistro() {
+    console.log(this.productForm)
+    this.product.id = this.productForm.controls['id'].value;
+    this.product.productName = this.productForm.controls['productName'].value;
+    this.product.productCost = this.productForm.controls['productCost'].value;
+    this.product.productDescription = this.productForm.controls['productDescription'].value;
+    this.product.stock = this.productForm.controls['stock'].value;
+
+    this.productService.updateProduct(this.product).subscribe((data) => {
+      alert(this.product.productName + ' alterado com sucesso !');
+      this.getProductList();
+      this.productForm.reset();
+      location.reload();
+    }, (error) => {
+      console.log(error);
+    });
+  }
+
+  DeleteProduct(id: Guid): void{
+    this.productService.deleteProductById(id).subscribe((data) => {
+      alert('Excluído com sucesso !');
+      this.getProductList();
+    }, (error) => {
+      console.log(error);
+    })
   }
 
 }

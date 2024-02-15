@@ -1,4 +1,4 @@
-<form class="form-horizontal" [formGroup]="productForm" *ngIf="isVisible">
+<form class="form-horizontal"  style="padding: 0 5px 10px;" [formGroup]="productForm" *ngIf="isVisible">
   <h1>Welcome to Angular CRUD with .NET5</h1>
   <div class="form-group">
     <label class="control-label col-sm-2" for="pwd">
@@ -51,15 +51,17 @@
   </div>
 
   <div class="form-group">
-    <div class="container">
-      <div class="row">
-        <div class="col-sm">
-          <button type="submit" class="btn btn-primary" (click)="add()">
-            Submit
+    <div>
+          <button type="submit" class="btn btn-primary" (click)="add()" *ngIf="!botaoEditar">
+            Cadastrar
+          </button>
+          <button type="submit" class="btn btn-secondary " (click)="editarRegistro()" *ngIf="botaoEditar">
+            Editar
+          </button>
+          <button type="submit" class="btn btn-danger" (click)="cancelarEdicao()" *ngIf="botaoEditar">
+            Cancelar
           </button>
         </div>
-      </div>
-    </div>
   </div>
 
   <div *ngIf="ProductList">
@@ -79,12 +81,13 @@
           <td>{{prd.stock}}</td>
           <td>{{prd.productDescription}}</td>
           <td>
-            <button type="button" data-toggle="tooltip" title="Click edit Button" data-placement="top"
-              (click)="ProductDetailsToEdit()">
-              Edit
+            <button type="button" class="btn btn-primary"
+              (click)="ProductDetailsToEdit(prd)">
+              Editar
             </button>
-            <button type="button" (click)="DeleteProduct()">
-              Delete
+            <button type="button" class="btn btn-danger"
+              (click)="DeleteProduct(prd.id)">
+              Excluir
             </button>
           </td>
         </tr>
